@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>影春2.0</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Microsoft Yahei", sans-serif;
+        }
+        body {
+            width: 100vw;
+            height: 100vh;
+            background: #000000;
+            overflow: hidden;
+            position: relative;
+        }
+        /* 星空粒子背景 */
+        .stars {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 0;
+        }
+        .star {
+            position: absolute;
+            border-radius: 50%;
+            animation: twinkle 3s infinite alternate;
+        }
+        @keyframes twinkle {
+            0% { opacity: 0.3; }
+            100% { opacity: 1; }
+        }
+        /* 主容器 */
+        .container {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        /* 头像 */
+        .avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: url("Screenshot_20260404_164538.jpg") center/cover;
+            border: 3px solid #333;
+            margin-bottom: 30px;
+        }
+        /* 标题 */
+        .title {
+            color: #ffffff;
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        .subtitle {
+            color: #ffffff;
+            font-size: 16px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        /* 输入框 */
+        .input-box {
+            width: 95%;
+            max-width: 1200px;
+            height: 60px;
+            background: #2a2a2a;
+            border: 2px solid #666666;
+            border-radius: 12px;
+            padding: 0 20px;
+            color: #ffffff;
+            font-size: 18px;
+            outline: none;
+            margin-bottom: 30px;
+        }
+        .input-box::placeholder {
+            color: #999999;
+        }
+        /* 按钮组 */
+        .btn-group {
+            display: flex;
+            gap: 15px;
+        }
+        .btn {
+            width: 120px;
+            height: 50px;
+            border: none;
+            border-radius: 25px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .btn-get {
+            background: #ffffff;
+            color: #000000;
+        }
+        .btn-verify {
+            background: #ffffff;
+            color: #000000;
+        }
+        .btn:hover {
+            transform: scale(1.05);
+            opacity: 0.9;
+        }
+        /* 成功提示（初始隐藏） */
+        .success-tip {
+            display: none;
+            color: #00ff00;
+            font-size: 18px;
+            margin-top: 20px;
+            text-align: center;
+        }
+        .success-btn {
+            display: none;
+            margin-top: 15px;
+            width: 150px;
+            height: 50px;
+            background: #ffffff;
+            color: #000000;
+            border: none;
+            border-radius: 25px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <!-- 星空背景 -->
+    <div class="stars" id="stars"></div>
+
+    <div class="container">
+        <div class="avatar"></div>
+        <h1 class="title">欢迎使用影春( ˘ ³˘)❤</h1>
+        <p class="subtitle">♡´･ᴗ･`♡请输入您的卡密♡´･ᴗ･`♡</p>
+        
+        <input type="text" class="input-box" id="keyInput" placeholder="没事可加作者">
+        
+        <div class="btn-group">
+            <button class="btn btn-get" id="getBtn">找我要(^_^;)</button>
+            <button class="btn btn-verify" id="verifyBtn">试一下ヽ(´¬`)</button>
+        </div>
+
+        <p class="success-tip" id="successTip">居然成功了厉害！✧(≖ ◡ ≖✿)</p>
+        <button class="success-btn" id="successBtn">点击此按钮进入专属页面</button>
+    </div>
+
+    <script>
+        // 生成星空粒子
+        function createStars() {
+            const stars = document.getElementById('stars');
+            const colors = ['#ffffff', '#ffffcc', '#ffccff', '#ccccff', '#ccffcc'];
+            for (let i = 0; i < 100; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.width = (Math.random() * 3 + 1) + 'px';
+                star.style.height = star.style.width;
+                star.style.background = colors[Math.floor(Math.random() * colors.length)];
+                star.style.animationDelay = Math.random() * 3 + 's';
+                stars.appendChild(star);
+            }
+        }
+        createStars();
+
+        // 验证逻辑
+        const correctKey = "YCNB";
+        const keyInput = document.getElementById('keyInput');
+        const verifyBtn = document.getElementById('verifyBtn');
+        const successTip = document.getElementById('successTip');
+        const successBtn = document.getElementById('successBtn');
+        const getBtn = document.getElementById('getBtn');
+
+        // 获取按钮
+        getBtn.addEventListener('click', () => {
+            alert("没事继续加油");
+        });
+
+        // 验证按钮
+        verifyBtn.addEventListener('click', () => {
+            const inputKey = keyInput.value.trim();
+            if (inputKey === correctKey) {
+                // 验证成功
+                successTip.style.display = 'block';
+                successBtn.style.display = 'block';
+                verifyBtn.disabled = true;
+                getBtn.disabled = true;
+                keyInput.disabled = true;
+            } else {
+                alert("别灰心");
+            }
+        });
+
+        // 成功按钮跳转
+        successBtn.addEventListener('click', () => {
+            // 跳转到主界面（界面3）
+            window.location.href = "main.html";
+        });
+    </script>
+</body>
+</html>
