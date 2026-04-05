@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>影春2.0</title>
+    <title>QXPAKUltra</title>
     <style>
         * {
             margin: 0;
@@ -14,202 +14,466 @@
         body {
             width: 100vw;
             height: 100vh;
-            background: #000000;
-            overflow: hidden;
-            position: relative;
-        }
-        /* 星空粒子背景 */
-        .stars {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            z-index: 0;
-        }
-        .star {
-            position: absolute;
-            border-radius: 50%;
-            animation: twinkle 3s infinite alternate;
-        }
-        @keyframes twinkle {
-            0% { opacity: 0.3; }
-            100% { opacity: 1; }
+            background: #f5f5f5;
+            overflow-x: hidden;
         }
         /* 主容器 */
         .container {
-            position: relative;
-            z-index: 1;
             width: 100%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
+            max-width: 1200px;
+            margin: 0 auto;
             padding: 20px;
         }
-        /* 头像 */
-        .avatar {
-            width: 100px;
-            height: 100px;
+        /* 顶部标题 */
+        .app-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #000000;
+            margin-bottom: 15px;
+        }
+        /* 顶部状态卡片 */
+        .status-card {
+            width: 100%;
+            background: #d4edda;
+            border-radius: 16px;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .status-info .status-text {
+            font-size: 20px;
+            font-weight: bold;
+            color: #000000;
+            margin-bottom: 8px;
+        }
+        .status-info .version-text {
+            font-size: 16px;
+            color: #000000;
+        }
+        .status-avatar {
+            width: 80px;
+            height: 80px;
             border-radius: 50%;
             background: url("Screenshot_20260404_164538.jpg") center/cover;
-            border: 3px solid #333;
-            margin-bottom: 30px;
         }
-        /* 标题 */
-        .title {
-            color: #ffffff;
-            font-size: 28px;
-            font-weight: bold;
-            margin-bottom: 15px;
-            text-align: center;
-        }
-        .subtitle {
-            color: #ffffff;
-            font-size: 16px;
-            margin-bottom: 30px;
-            text-align: center;
-        }
-        /* 输入框 */
-        .input-box {
-            width: 95%;
-            max-width: 1200px;
-            height: 60px;
-            background: #2a2a2a;
-            border: 2px solid #666666;
-            border-radius: 12px;
-            padding: 0 20px;
-            color: #ffffff;
-            font-size: 18px;
-            outline: none;
-            margin-bottom: 30px;
-        }
-        .input-box::placeholder {
-            color: #999999;
-        }
-        /* 按钮组 */
-        .btn-group {
-            display: flex;
+        /* 右侧信息卡片组 */
+        .info-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
             gap: 15px;
+            margin-bottom: 20px;
         }
-        .btn {
-            width: 120px;
-            height: 50px;
+        .info-card {
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 20px;
+        }
+        .info-label {
+            font-size: 14px;
+            color: #666666;
+            margin-bottom: 5px;
+        }
+        .info-value {
+            font-size: 32px;
+            font-weight: bold;
+            color: #000000;
+        }
+        /* 服务器信息卡片 */
+        .server-card {
+            width: 100%;
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .server-item {
+            margin-bottom: 12px;
+        }
+        .server-item:last-child {
+            margin-bottom: 0;
+        }
+        .server-label {
+            font-size: 16px;
+            color: #000000;
+            font-weight: bold;
+            margin-bottom: 4px;
+        }
+        .server-value {
+            font-size: 14px;
+            color: #666666;
+        }
+        .server-value.success {
+            color: #28a745;
+            font-weight: bold;
+        }
+        /* 启动按钮 */
+        .start-btn {
+            width: 100%;
+            height: 60px;
+            background: #000000;
+            color: #ffffff;
             border: none;
-            border-radius: 25px;
+            border-radius: 30px;
             font-size: 18px;
             font-weight: bold;
             cursor: pointer;
             transition: all 0.3s;
+            margin-bottom: 20px;
         }
-        .btn-get {
-            background: #ffffff;
-            color: #000000;
-        }
-        .btn-verify {
-            background: #ffffff;
-            color: #000000;
-        }
-        .btn:hover {
-            transform: scale(1.05);
+        .start-btn:hover {
             opacity: 0.9;
+            transform: scale(1.01);
         }
-        /* 成功提示（初始隐藏） */
-        .success-tip {
-            display: none;
-            color: #00ff00;
-            font-size: 18px;
-            margin-top: 20px;
-            text-align: center;
-        }
-        .success-btn {
-            display: none;
-            margin-top: 15px;
-            width: 150px;
-            height: 50px;
+        /* 支持开发卡片 */
+        .support-card {
+            width: 100%;
             background: #ffffff;
-            color: #000000;
-            border: none;
-            border-radius: 25px;
-            font-size: 18px;
-            font-weight: bold;
-            cursor: pointer;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 80px;
         }
+        .support-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: #000000;
+            margin-bottom: 8px;
+        }
+        .support-text {
+            font-size: 14px;
+            color: #666666;
+            line-height: 1.5;
+        }
+        /* 底部导航栏 */
+        .nav-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background: #ffffff;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            border-top: 1px solid #eeeeee;
+        }
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            color: #666666;
+            transition: all 0.3s;
+        }
+        .nav-item.active {
+            color: #000000;
+        }
+        .nav-icon {
+            font-size: 24px;
+            margin-bottom: 4px;
+        }
+        .nav-text {
+            font-size: 12px;
+        }
+
+        /* ========== 悬浮窗专属样式 ========== */
+        *{margin:0;padding:0;box-sizing:border-box;font-family:Microsoft YaHei,sans-serif;user-select:none}
+        body{background:transparent}
+        /*悬浮窗默认隐藏*/
+        .float-box{
+            display: none;
+            position: fixed;
+            left: 20px;
+            top: 120px;
+            z-index: 99999;
+            width:420px;border-radius:16px;overflow:hidden;background:#fff;box-shadow:0 8px 30px rgba(0,0,0,0.2);transition:all 0.35s cubic-bezier(0.2,1,0.3,1)
+        }
+        /*收缩成自定义图片悬浮球核心样式*/
+        .float-box.mini{
+          width:56px;height:56px;border-radius:50px;
+          background:url('Screenshot_20260404_170615.jpg') center/cover no-repeat !important;
+          box-shadow:0 4px 20px rgba(0,0,0,0.35);
+        }
+        /*收缩后隐藏所有内部UI，只留小球点击层*/
+        .float-box.mini > div:not(.drag-bar):not(.rain-top){display:none !important;}
+        .float-box.mini::after{
+          content:"";position:absolute;inset:0;border-radius:50px;cursor:pointer;
+        }
+        /*顶部彩虹条*/
+        .rain-top{height:4px;background:linear-gradient(90deg,red,orange,yellow,green,blue,purple)}
+        /*全局拖动栏*/
+        .drag-bar{height:45px;width:100%;position:absolute;top:0;left:0;z-index:999;-webkit-app-region:drag}
+        /*头部布局*/
+        .head-wrap{display:flex;align-items:center;padding:15px;background:#f7f8fa;border-bottom:1px solid #eee}
+        /*大面板旋转头像点击切换按钮*/
+        .avatar-toggle-wrap{cursor:pointer}
+        .avatar{width:48px;height:48px;border-radius:50%;overflow:hidden;margin-right:12px;animation:rotateAva 10s linear infinite}
+        .avatar img{width:100%;height:100%;object-fit:cover}
+        @keyframes rotateAva{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+        .head-text h3{font-size:16px;color:#222}
+        .head-text p{font-size:12px;color:#777;margin-top:3px}
+        .tag-state{margin-left:auto;padding:4px 10px;border-radius:12px;background:#e8f5e9;color:#2e7d32;font-size:12px}
+        /*主题切换标签*/
+        .theme-tab{display:flex;background:#f7f8fa;border-bottom:1px solid #eee}
+        .theme-item{flex:1;text-align:center;padding:8px;font-size:14px;color:#666;cursor:pointer}
+        .theme-item.active{background:#fff;color:#2196f3;font-weight:bold}
+        /*主体菜单容器*/
+        .main-container{display:flex;height:260px}
+        .left-menu{width:85px;background:#f1f3f5;overflow-y:auto}
+        .menu-item{padding:12px 0;text-align:center;font-size:13px;color:#555;cursor:pointer;margin:6px;border-radius:8px}
+        .menu-item.active{background:#2196f3;color:#fff}
+        /*右侧滑动分页*/
+        .right-content{flex:1;overflow:hidden;position:relative}
+        .page-wrap{width:300%;height:100%;display:flex;transition:transform 0.3s ease}
+        .page{width:100%;padding:15px}
+        /*功能开关样式*/
+        .switch-row{display:flex;justify-content:space-between;align-items:center;margin:14px 0}
+        .switch-row label{font-size:14px;color:#333}
+        .switch{width:44px;height:24px;border-radius:24px;background:#ccc;position:relative;cursor:pointer;transition:.2s}
+        .switch.on{background:#00c853}
+        .switch::after{content:'';position:absolute;width:20px;height:20px;background:#fff;border-radius:50%;top:2px;left:2px;transition:.2s}
+        .switch.on::after{left:22px}
+        /*底部主控按钮*/
+        .bottom-btn{margin:15px;width:calc(100% - 30px);margin-left:15px;padding:13px;border-radius:14px;background:#000;color:#fff;border:none;font-size:16px;font-weight:bold;cursor:pointer}
+        /*深色全局主题覆写*/
+        body.dark .float-box{background:#1e2229}
+        body.dark .head-wrap,body.dark .theme-tab{background:#272c34;border-color:#383e48}
+        body.dark .head-text h3{color:#eee}
+        body.dark .head-text p{color:#aaa}
+        body.dark .theme-item{color:#999}
+        body.dark .theme-item.active{background:#1e2229;color:#42a5f5}
+        body.dark .left-menu{background:#272c34}
+        body.dark .menu-item{color:#bbb}
+        body.dark .menu-item.active{background:#42a5f5;color:#fff}
+        body.dark .switch-row label{color:#eee}
     </style>
 </head>
 <body>
-    <!-- 星空背景 -->
-    <div class="stars" id="stars"></div>
-
     <div class="container">
-        <div class="avatar"></div>
-        <h1 class="title">欢迎使用影春( ˘ ³˘)❤</h1>
-        <p class="subtitle">♡´･ᴗ･`♡请输入您的卡密♡´･ᴗ･`♡</p>
-        
-        <input type="text" class="input-box" id="keyInput" placeholder="没事可加作者">
-        
-        <div class="btn-group">
-            <button class="btn btn-get" id="getBtn">找我要(^_^;)</button>
-            <button class="btn btn-verify" id="verifyBtn">试一下ヽ(´¬`)</button>
+        <!-- 顶部标题 -->
+        <div class="app-title">( ˘ ³˘)❤欢迎回来</div>
+
+        <!-- 顶部状态卡片 -->
+        <div class="status-card">
+            <div class="status-info">
+                <div class="status-text">当前固定ID:影春</div>
+                <div class="version-text">版本: 测试中</div>
+            </div>
+            <div class="status-avatar"></div>
         </div>
 
-        <p class="success-tip" id="successTip">居然成功了厉害！✧(≖ ◡ ≖✿)</p>
-        <button class="success-btn" id="successBtn">点击此按钮进入专属页面</button>
+        <!-- 右侧信息卡片组 -->
+        <div class="info-group">
+            <div class="info-card">
+                <div class="info-label">祝您</div>
+                <div class="info-value">早日封神</div>
+            </div>
+            <div class="info-card">
+                <div class="info-label">稳定次数</div>
+                <div class="info-value">∞</div>
+            </div>
+        </div>
+
+        <!-- 服务器信息卡片 -->
+        <div class="server-card">
+            <div class="server-item">
+                <div class="server-label">服务器</div>
+                <div class="server-value">已跑服务器 当前服务(中国)</div>
+            </div>
+            <div class="server-item">
+                <div class="server-label">权限模式</div>
+                <div class="server-value">无:Root</div>
+            </div>
+            <div class="server-item">
+                <div class="server-label">避免早日封神</div>
+                <div class="server-value success">✙成功✙<div>
+                
+                
+            </div>
+        </div>
+
+        <!-- 启动悬浮窗按钮 -->
+        <button class="start-btn" id="startBtn">启动悬浮窗(空壳)</button>
+
+        <!-- 支持开发卡片 -->
+        <div class="support-card">
+            <div class="support-title">本APP为空壳请勿当真</div>
+            <div class="support-text">影春牛逼虽然现在为空壳</div>
+        </div>
+    </div>
+
+    <!-- 底部导航栏 -->
+    <div class="nav-bar">
+        <div class="nav-item active">
+            <div class="nav-icon">🏠</div>
+            <div class="nav-text">主页</div>
+        </div>
+        <div class="nav-item">
+            <div class="nav-icon">🔧</div>
+            <div class="nav-text">权限</div>
+        </div>
+        <div class="nav-item">
+            <div class="nav-icon">🌍</div>
+            <div class="nav-text">服务器</div>
+        </div>
+        <div class="nav-item">
+            <div class="nav-icon">⚙️</div>
+            <div class="nav-text">设置</div>
+        </div>
+    </div>
+
+    <!-- 悬浮窗面板结构 默认隐藏 -->
+    <div class="float-box" id="floatUI">
+      <div class="drag-bar"></div>
+      <div class="rain-top"></div>
+
+      <div class="head-wrap">
+        <div class="avatar-toggle-wrap" id="avatarSwitchBtn">
+          <div class="avatar">
+            <img src="Screenshot_20260404_164538.jpg" alt="面板头像">
+          </div>
+        </div>
+        <div class="head-text">
+          <h3>自定义图片小球悬浮面板</h3>
+          <p>点头像缩成专属图片小球 / 点小球展开</p>
+        </div>
+        <div class="tag-state">就绪运行</div>
+      </div>
+
+      <div class="theme-tab">
+        <div class="theme-item active" data-t="light">白色主题</div>
+        <div class="theme-item" data-t="dark">深色主题</div>
+      </div>
+
+      <div class="main-container">
+        <div class="left-menu">
+          <div class="menu-item active" data-p="0">主页</div>
+          <div class="menu-item" data-p="1">功能</div>
+          <div class="menu-item" data-p="2">高级</div>
+        </div>
+        <div class="right-content">
+          <div class="page-wrap" id="pageSlider">
+            <div class="page">
+              <div class="switch-row">
+                <label>全局防检测</label>
+                <div class="switch"></div>
+              </div>
+              <div class="switch-row">
+                <label>流畅优化模式</label>
+                <div class="switch" data-name=""></div>
+              </div>
+            </div>
+            <div class="page">
+              <div class="switch-row">
+                <label>透视开启</label>
+                <div class="switch" data-name="透视可视"></div>
+              </div>
+              <div class="switch-row">
+                <label>自瞄辅助</label>
+                <div class="switch" data-name="智能自瞄"></div>
+              </div>
+            </div>
+            <div class="page">
+              <div class="switch-row">
+                <label>内存注入</label>
+                <div class="switch" data-name="内存注入"></div>
+              </div>
+              <div class="switch-row">
+                <label>后台保活</label>
+                <div class="switch" data-name="持久保活"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <button class="bottom-btn" id="startMainBtn">一键启动核心</button>
     </div>
 
     <script>
-        // 生成星空粒子
-        function createStars() {
-            const stars = document.getElementById('stars');
-            const colors = ['#ffffff', '#ffffcc', '#ffccff', '#ccccff', '#ccffcc'];
-            for (let i = 0; i < 100; i++) {
-                const star = document.createElement('div');
-                star.className = 'star';
-                star.style.left = Math.random() * 100 + '%';
-                star.style.top = Math.random() * 100 + '%';
-                star.style.width = (Math.random() * 3 + 1) + 'px';
-                star.style.height = star.style.width;
-                star.style.background = colors[Math.floor(Math.random() * colors.length)];
-                star.style.animationDelay = Math.random() * 3 + 's';
-                stars.appendChild(star);
-            }
-        }
-        createStars();
-
-        // 验证逻辑
-        const correctKey = "YCNB";
-        const keyInput = document.getElementById('keyInput');
-        const verifyBtn = document.getElementById('verifyBtn');
-        const successTip = document.getElementById('successTip');
-        const successBtn = document.getElementById('successBtn');
-        const getBtn = document.getElementById('getBtn');
-
-        // 获取按钮
-        getBtn.addEventListener('click', () => {
-            alert("没事继续加油");
+        // 底部导航栏切换
+        const navItems = document.querySelectorAll('.nav-item');
+        navItems.forEach(item => {
+            item.addEventListener('click', () => {
+                navItems.forEach(i => i.classList.remove('active'));
+                item.classList.add('active');
+            });
         });
 
-        // 验证按钮
-        verifyBtn.addEventListener('click', () => {
-            const inputKey = keyInput.value.trim();
-            if (inputKey === correctKey) {
-                // 验证成功
-                successTip.style.display = 'block';
-                successBtn.style.display = 'block';
-                verifyBtn.disabled = true;
-                getBtn.disabled = true;
-                keyInput.disabled = true;
-            } else {
-                alert("别灰心");
-            }
+        // 获取按钮和悬浮窗元素
+        const startBtn = document.getElementById('startBtn');
+        const floatUI = document.getElementById('floatUI');
+
+        // 点击启动按钮显示悬浮窗
+        startBtn.addEventListener('click', () => {
+            floatUI.style.display = 'block';
         });
 
-        // 成功按钮跳转
-        successBtn.addEventListener('click', () => {
-            // 跳转到主界面（界面3）
-            window.location.href = "main.html";
+        // ========== 悬浮窗核心交互JS ==========
+        //全局拖动逻辑
+        let drag = false,ox=0,oy=0;
+        const dragBar = document.querySelector('.drag-bar');
+
+        floatUI.addEventListener('touchstart',e=>{
+          drag=true;
+          ox=e.touches[0].clientX-floatUI.offsetLeft;
+          oy=e.touches[0].clientY-floatUI.offsetTop;
         });
+        document.addEventListener('touchmove',e=>{
+          if(!drag)return;
+          let x=e.touches[0].clientX-ox;
+          let y=e.touches[0].clientY-oy;
+          floatUI.style.left=x+'px';
+          floatUI.style.top=y+'px';
+        });
+        document.addEventListener('touchend',()=>drag=false);
+
+        //头像/小球收缩展开切换
+        const avatarBtn = document.getElementById('avatarSwitchBtn');
+        floatUI.addEventListener('click',()=>{
+          floatUI.classList.toggle('mini');
+        });
+
+        //黑白主题切换
+        const themeItems = document.querySelectorAll('.theme-item');
+        themeItems.forEach(t=>{
+          t.onclick=()=>{
+            themeItems.forEach(a=>a.classList.remove('active'));
+            t.classList.add('active');
+            if(t.dataset.t==='dark')document.body.classList.add('dark');
+            else document.body.classList.remove('dark');
+          }
+        });
+
+        //左侧菜单高亮+滑动分页修复
+        const menuList = document.querySelectorAll('.menu-item');
+        const slider = document.getElementById('pageSlider');
+        menuList.forEach(m=>{
+          m.onclick=()=>{
+            menuList.forEach(x=>x.classList.remove('active'));
+            m.classList.add('active');
+            let pos = parseInt(m.dataset.p);
+            slider.style.transform = 'translateX('+(-pos*100)+'%)';
+          }
+        });
+
+        //开关点亮弹窗提示
+        const switchAll = document.querySelectorAll('.switch');
+        switchAll.forEach(s=>{
+          s.onclick=()=>{
+            s.classList.toggle('on');
+            let tipText = s.dataset.name ? s.dataset.name : "功能";
+            alert(s.classList.contains('on') ? tipText+"已开启" : tipText+"已关闭");
+          }
+        });
+
+        //底部主控按钮
+        document.getElementById('startMainBtn').onclick=()=>{
+            alert('核心模块准备就绪！');
+        };
     </script>
 </body>
 </html>
+
+                
